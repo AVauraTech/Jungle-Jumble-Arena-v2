@@ -1,0 +1,90 @@
+{
+  "solo": {
+    "easy": [
+      {
+        "name": "TestHuman",
+        "moves": 12,
+        "time": 25,
+        "date": "2026-09-29"
+      },
+      {
+        "name": "TestHuman",
+        "moves": 12,
+        "time": 25,
+        "date": "2026-09-29"
+      },
+      {
+        "name": "ShadowPanther",
+        "moves": 14,
+        "time": 22,
+        "date": "2026-03-15"
+      },
+      {
+        "name": "TigerSwift",
+        "moves": 16,
+        "time": 27,
+        "date": "2026-03-18"
+      },
+      {
+        "name": "SafariHunter",
+        "moves": 17,
+        "time": 54,
+        "date": "2026-09-29"
+      },
+      {
+        "name": "SafariKing",
+        "moves": 18,
+        "time": 31,
+        "date": "2026-03-20"
+      }
+    ],
+    "medium": [
+      {
+        "name": "JungleMaster",
+        "moves": 24,
+        "time": 48,
+        "date": "2026-03-12"
+      },
+      {
+        "name": "CheetahSpeed",
+        "moves": 28,
+        "time": 53,
+        "date": "2026-03-19"
+      }
+    ],
+    "hard": [
+      {
+        "name": "ApexLegend",
+        "moves": 44,
+        "time": 96,
+        "date": "2026-03-10"
+      }
+    ]
+  },
+  "pvp": [
+    {
+      "name": "Anushka (Dev)",
+      "rating": 1450,
+      "wins": 28,
+      "losses": 4
+    },
+    {
+      "name": "ApexAI",
+      "rating": 1380,
+      "wins": 19,
+      "losses": 8
+    },
+    {
+      "name": "JungleStriker",
+      "rating": 1240,
+      "wins": 14,
+      "losses": 7
+    },
+    {
+      "name": "ShadowPanther",
+      "rating": 1190,
+      "wins": 10,
+      "losses": 6
+    }
+  ]
+}
