@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jungle-Jumble Arena | Real-Time Multiplayer & AI Memory Card Platform</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="images/1.jpg" />
+</head>
+<body class="theme-default">
+
+  <!-- Top App Navigation Bar -->
+  <header class="app-header">
+    <div class="brand-title">
+      🦁 JUNGLE-JUMBLE <span class="brand-badge">ARENA 2.0</span>
+    </div>
+    <div class="header-controls">
+      <span id="ping-indicator" class="ping-pill ping-good" title="Network Latency">-- ms</span>
+      <button id="theme-btn" class="icon-btn" title="Cycle Visual Theme">🎨 Theme</button>
+      <button id="sound-btn" class="icon-btn" title="Toggle Sound">🔊 Sound</button>
+      <button id="leaderboard-btn" class="icon-btn" title="View Global Leaderboard">🏆 Rankings</button>
+    </div>
+  </header>
+
+  <main class="main-viewport">
+
+    <!-- SCREEN 1: LOBBY & MODE SELECTION -->
+    <section id="screen-lobby" class="view-screen">
+      <div class="lobby-hero">
+        <h2>Enter the Memory Arena</h2>
+        <p>Challenge adaptive cognitive AI or battle global players in real-time 1v1 PvP!</p>
+      </div>
+
+      <div style="width: 100%; max-width: 420px; margin-bottom: 24px;">
+        <label for="player-name-input" style="font-weight: 700; font-size: 0.9rem; margin-bottom: 6px; display: block;">YOUR SAFARI ALIAS</label>
+        <input type="text" id="player-name-input" class="input-field" placeholder="Enter nickname (e.g. HunterX)" maxlength="16" value="SafariHunter" />
+      </div>
+
+      <div class="mode-grid">
+        <!-- Mode 1: Solo Speedrun -->
+        <div class="mode-card" id="mode-card-solo">
+          <div class="mode-icon">⏱️</div>
+          <h3>Solo Time-Attack</h3>
+          <p>Beat the clock and optimize moves across dynamic grid matrices. Aim for the leaderboard top rank!</p>
+          <span class="mode-badge">Speedrun & Practice</span>
+        </div>
+
+        <!-- Mode 2: AI Duel -->
+        <div class="mode-card" id="mode-card-ai">
+          <div class="mode-icon">🤖</div>
+          <h3>AI Memory Duel</h3>
+          <p>Battle against adaptive neural memory bots simulating human cognitive decay curves.</p>
+          <span class="mode-badge">Adaptive Difficulty</span>
+        </div>
+
+        <!-- Mode 3: 1v1 PvP Multiplayer -->
+        <div class="mode-card" id="mode-card-pvp">
+          <div class="mode-icon">⚔️</div>
+          <h3>1v1 PvP Arena</h3>
+          <p>Live WebSockets matchmaking. Create private rooms for friends or match random challengers worldwide.</p>
+          <span class="mode-badge">Real-Time WebSockets</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 2: GAME ARENA (ACTIVE MATCH) -->
+    <section id="screen-arena" class="view-screen hidden">
+      <!-- Player HUD -->
+      <div class="arena-hud">
+        <!-- Player 1 -->
+        <div class="hud-player" id="hud-p1">
+          <div class="hud-avatar">🧑‍🚀</div>
+          <div class="player-details">
+            <span class="player-name" id="p1-name">Player 1</span>
+            <span class="player-score">⭐ <span id="p1-score">0</span> pts</span>
+          </div>
+        </div>
+
+        <!-- Center Turn & Timer Status -->
+        <div class="hud-center">
+          <div class="turn-pill" id="turn-banner">YOUR TURN! 🎯</div>
+          <div class="game-metrics">
+            <span>Moves: <b id="stat-moves">0</b></span>
+            <span>Time: <b id="stat-timer">0</b>s</span>
+            <span>Pairs: <b id="stat-pairs">0/8</b></span>
+          </div>
+        </div>
+
+        <!-- Player 2 -->
+        <div class="hud-player" id="hud-p2">
+          <div class="hud-avatar" id="p2-avatar">🤖</div>
+          <div class="player-details">
+            <span class="player-name" id="p2-name">Opponent</span>
+            <span class="player-score">⭐ <span id="p2-score">0</span> pts</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons & Reactions -->
+      <div class="game-actions-bar">
+        <button id="hint-btn" class="icon-btn" title="Peek cards (Solo only)">💡 Peek Hint</button>
+        <button id="restart-btn" class="icon-btn" title="Restart game">🔄 Restart</button>
+        <button id="leave-btn" class="icon-btn" title="Exit to Lobby">🚪 Leave Arena</button>
+
+        <!-- Emote Reactions Tray (Multiplayer) -->
+        <div class="emote-picker-bar" id="emote-bar">
+          <button class="emote-btn" data-emote="🦁" title="Roar">🦁</button>
+          <button class="emote-btn" data-emote="🔥" title="On Fire">🔥</button>
+          <button class="emote-btn" data-emote="😱" title="Shocked">😱</button>
+          <button class="emote-btn" data-emote="🎉" title="Celebration">🎉</button>
+          <button class="emote-btn" data-emote="💎" title="Diamond">💎</button>
+          <button class="emote-btn" data-emote="👏" title="Applause">👏</button>
+        </div>
+      </div>
+
+      <!-- 3D Card Board -->
+      <div class="board-container">
+        <div id="game-board" class="game-board"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: Solo Difficulty Selection -->
+  <div id="modal-solo" class="modal-overlay hidden">
+    <div class="modal-box">
+      <h3>Select Grid Matrix</h3>
+      <p style="color: var(--text-muted); margin-bottom: 20px; text-align: center;">Choose your challenge density:</p>
+      <select id="solo-difficulty-select" class="select-field">
+        <option value="easy">🍃 Easy (4x4 Grid - 8 Pairs)</option>
+        <option value="medium" selected>🌴 Medium (4x6 Grid - 12 Pairs)</option>
+        <option value="hard">🦁 Hard (6x6 Grid - 18 Pairs)</option>
+      </select>
+      <button id="solo-launch-btn" class="btn-primary">Launch Expedition 🚀</button>
+      <button class="btn-secondary modal-close-btn">Cancel</button>
+    </div>
+  </div>
+
+  <!-- MODAL: AI Bot Selection -->
+  <div id="modal-ai" class="modal-overlay hidden">
+    <div class="modal-box">
+      <h3>Select AI Opponent</h3>
+      <p style="color: var(--text-muted); margin-bottom: 20px; text-align: center;">Cognitive decay & memory retention settings:</p>
+      <select id="ai-difficulty-select" class="select-field">
+        <option value="easy">🐾 Cub AI (Short memory, playful mistakes)</option>
+        <option value="medium" selected>🐆 Hunter AI (Ebbinghaus cognitive decay, ~70% recall)</option>
+        <option value="hard">🦁 Apex Predator (Deep episodic memory, optimal pairing)</option>
+      </select>
+      <button id="ai-launch-btn" class="btn-primary">Duel the AI ⚔️</button>
+      <button class="btn-secondary modal-close-btn">Cancel</button>
+    </div>
+  </div>
+
+  <!-- MODAL: PvP Matchmaking & Room Code -->
+  <div id="modal-pvp" class="modal-overlay hidden">
+    <div class="modal-box">
+      <h3>1v1 Real-Time Arena</h3>
+      <div style="margin-bottom: 20px;">
+        <button id="pvp-quickmatch-btn" class="btn-primary" style="margin-bottom: 12px;">⚡ Quick Match (Random Opponent)</button>
+        <button id="pvp-create-btn" class="btn-primary" style="background: linear-gradient(135deg, #10b981, #059669);">➕ Create Private Room</button>
+      </div>
+      <div style="border-top: 1px solid var(--surface-border); padding-top: 16px;">
+        <label style="font-size: 0.85rem; font-weight: 700; margin-bottom: 6px; display: block;">JOIN VIA ROOM CODE</label>
+        <input type="text" id="pvp-room-code-input" class="input-field" placeholder="e.g. JGL-8K2Q" style="text-transform: uppercase;" />
+        <button id="pvp-join-btn" class="btn-secondary" style="background: var(--surface); color: var(--accent-pink);">Join Room</button>
+      </div>
+      <button class="btn-secondary modal-close-btn" style="margin-top: 16px;">Close</button>
+    </div>
+  </div>
+
+  <!-- MODAL: Waiting for Opponent -->
+  <div id="modal-waiting" class="modal-overlay hidden">
+    <div class="modal-box" style="text-align: center;">
+      <h3>Waiting for Challenger...</h3>
+      <p style="color: var(--text-muted); margin-bottom: 20px;">Share this room code with your friend:</p>
+      <div id="display-room-code" style="font-family: var(--font-mono); font-size: 2.2rem; font-weight: 900; color: var(--accent-gold); letter-spacing: 3px; margin-bottom: 16px; user-select: all;">JGL-XXXX</div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">Match will automatically start once your challenger enters the arena.</p>
+      <button id="waiting-cancel-btn" class="btn-secondary">Cancel & Return to Lobby</button>
+    </div>
+  </div>
+
+  <!-- MODAL: Game Over / Victory -->
+  <div id="modal-gameover" class="modal-overlay hidden">
+    <div class="modal-box" style="text-align: center;">
+      <h3 id="gameover-title" style="font-size: 2.4rem; color: var(--accent-gold);">🎉 Victory!</h3>
+      <p id="gameover-desc" style="font-size: 1.1rem; margin-bottom: 18px; color: var(--text-muted);">Match completed.</p>
+      <div id="gameover-stats" style="font-family: var(--font-mono); font-size: 1rem; margin-bottom: 24px; line-height: 1.8;">
+        <!-- Filled dynamically -->
+      </div>
+      <button id="gameover-rematch-btn" class="btn-primary" style="margin-bottom: 10px;">Play Again / Rematch 🔁</button>
+      <button id="gameover-lobby-btn" class="btn-secondary">Return to Safari Lobby</button>
+    </div>
+  </div>
+
+  <!-- MODAL: Global Leaderboards -->
+  <div id="modal-leaderboard" class="modal-overlay hidden">
+    <div class="modal-box" style="max-width: 580px;">
+      <h3>🏆 Global Safari Rankings</h3>
+      <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+        <button id="lb-tab-solo" class="icon-btn" style="flex: 1; justify-content: center; border-color: var(--accent-pink);">Solo Speedruns</button>
+        <button id="lb-tab-pvp" class="icon-btn" style="flex: 1; justify-content: center;">1v1 Elo Ratings</button>
+      </div>
+      <div id="leaderboard-content" style="max-height: 320px; overflow-y: auto;">
+        <!-- Leaderboard Table dynamically loaded -->
+      </div>
+      <button class="btn-secondary modal-close-btn" style="margin-top: 18px;">Close</button>
+    </div>
+  </div>
+
+  <!-- Easter Egg & Toast -->
+  <div id="easterEgg" role="button" tabindex="0" aria-label="Secret Anushka's Egg" title="Touch the Golden Egg!"></div>
+  <div id="eggToast">Brewed fresh in Anushka’s imagination lab 💥</div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    Jungle-Jumble Arena v2.0 • Designed &amp; Developed with Real-Time WebSockets &amp; Adaptive AI
+  </footer>
+
+  <!-- Socket.io client script provided automatically by Express server -->
+  <script src="/socket.io/socket.io.js"></script>
+  <!-- Main Application Script (ES Module) -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
