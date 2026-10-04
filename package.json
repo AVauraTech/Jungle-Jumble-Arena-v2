@@ -1,0 +1,27 @@
+{
+  "name": "jungle-jumble-arena",
+  "version": "2.0.0",
+  "description": "Full-Stack Real-Time Multiplayer & AI Memory Card Game Arena",
+  "main": "server/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node server/index.js",
+    "test": "node test/simulate_match.js"
+  },
+  "keywords": [
+    "card-game",
+    "memory-game",
+    "multiplayer",
+    "socketio",
+    "ai",
+    "game"
+  ],
+  "author": "Anushka Vidyarthy & Antigravity",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "socket.io": "^4.7.5"
+  }
+}
